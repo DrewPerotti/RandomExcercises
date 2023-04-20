@@ -41,12 +41,12 @@ function sum(array){
 	}
 	return result
 }
-console.log(range(1, 10));
+// console.log(range(1, 10));
 // → [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-console.log(range(5, 2, -1));
+// console.log(range(5, 2, -1));
 // → [5, 4, 3, 2]
-console.log(sum(range(1, 10)));
+// console.log(sum(range(1, 10)));
 // → 55
 
 
@@ -82,11 +82,11 @@ function reverseArrayInPlace(arr){
 	}
 	return
 }
-console.log(reverseArray(["A", "B", "C"]));
+// console.log(reverseArray(["A", "B", "C"]));
 // → ["C", "B", "A"];
-let arrayValue = [1, 2, 3, 4, 5];
-reverseArrayInPlace(arrayValue);
-console.log(arrayValue);
+// let arrayValue = [1, 2, 3, 4, 5];
+// reverseArrayInPlace(arrayValue);
+// console.log(arrayValue);
 // → [5, 4, 3, 2, 1]
 
 //I knew how to do the reverseArray 2 ways, but I didn't know nor figure out a way for reverseArrayInPlace; the above code is teh result of looking at the hints, I'll add that function to an Anki card for later recall
@@ -155,7 +155,7 @@ function arrayToList(arr){
 
 
 
-console.log(arrayToList([10, 20]));
+// console.log(arrayToList([10, 20]));
 // → {value: 10, rest: {value: 20, rest: null}}
 // console.log(listToArray(arrayToList([10, 20, 30])));
 // // → [10, 20, 30]
