@@ -1,7 +1,7 @@
 const sw = new Stopwatch()
 
 function Stopwatch(){
-	this.duration = 0
+	let duration = 0
 	let startTime = 0
 	this.start = function() {
 		if(startTime>0){
@@ -11,20 +11,22 @@ function Stopwatch(){
         console.log(startTime)
 	},
 	this.stop = function() {
-		if(this.duration>0){
+		if(duration>0){
 			throw new Error("Stopwatch is not started")
 		}
-		this.duration = (Date.now() - startTime)/1000
+		duration = (Date.now() - startTime)/1000
 
 
 	},
 	this.reset = function() {
-		if(this.duration===0 || startTime===0){
+		if(duration===0 || startTime===0){
 			throw new Error("You cannot reset nothing")
 		}
-		this.duration = 0
+		duration = 0
 		startTime = 0
-		//stop counting
-		//can't stop twice in a row; already stopped therefore its not stopped
 	}
+
+	Object.defineProperty(this, 'duration',{
+		get: function() { return duration; }
+	} )
 }
