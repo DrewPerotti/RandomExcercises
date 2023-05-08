@@ -1,7 +1,8 @@
 //https://eloquentjavascript.net/04_data.html
 
-//the sum of a range
-/*The introduction of this book alluded to the following as a nice way to compute the sum of a range of numbers:
+/*
+The sum of a range
+The introduction of this book alluded to the following as a nice way to compute the sum of a range of numbers:
 
 console.log(sum(range(1, 10)));
 Write a range function that takes two arguments, start and end, and returns an array containing all the numbers from start up to (and including) end.
@@ -10,53 +11,51 @@ Next, write a sum function that takes an array of numbers and returns the sum of
 
 As a bonus assignment, modify your range function to take an optional third argument that indicates the “step” value used when building the array. If no step is given, the elements go up by increments of one, corresponding to the old behavior. The function call range(1, 10, 2) should return [1, 3, 5, 7, 9]. Make sure it also works with negative step values so that range(5, 2, -1) produces [5, 4, 3, 2].
 
-// Your code here.
+*/
+function range(a,b,c=1){
+	let resultArr = [];
+	//I guessed at this below loop condition, I'm not sure why it works but it does, however I went to look at the hints to this problem and they suggest  creating 2 separate loops, one for counting up from a to b, and one to count down from a to b. I did write some code trying to use 2 different loops but could not get them to work
+	for(let i = a; resultArr.length <=Math.abs(a-b); i+=c){
+		resultArr.push(i)
+	}
+	return resultArr
+}
 
+function sum(arr){
+	let arrSum = arr[0]
+	for(let i = 1; i<arr.length-1;i++){
+		arrSum+=arr[i]
+	}
+	return arrSum
+}
 console.log(range(1, 10));
 // → [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 console.log(range(5, 2, -1));
 // → [5, 4, 3, 2]
 console.log(sum(range(1, 10)));
 // → 55
+
+
+/*
+Reversing an array
+Arrays have a reverse method that changes the array by inverting the order in which its elements appear. For this exercise, write two functions, reverseArray and reverseArrayInPlace. The first, reverseArray, takes an array as argument and produces a new array that has the same elements in the inverse order. The second, reverseArrayInPlace, does what the reverse method does: it modifies the array given as argument by reversing its elements. Neither may use the standard reverse method.
 */
 
-function range(start, end, step=1){
-	let arr = []
-	if(start < end){
-		for(let i = start; i <= end; i +=step){
-			arr.push(i)
-		}
-		return arr
-	}else if(end<start){
-		for(let i = start; i>=end; i +=step){
-			arr.push(i)
-		}
-		return arr
-	}
-}
-function sum(array){
-	let result = 0;
-	for(let ele of array){
-		result+= ele
+function reverseArray(arr){
+	let result = []
+	for(let i = arr.length-1; i>=0; i--){
+		result.push(arr[i])
 	}
 	return result
 }
-// console.log(range(1, 10));
-// → [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-// console.log(range(5, 2, -1));
-// → [5, 4, 3, 2]
-// console.log(sum(range(1, 10)));
-// → 55
-
-
-
-//reversing an array
-/*Arrays have a reverse method that changes the array by inverting the order in which its elements appear. For this exercise, write two functions, reverseArray and reverseArrayInPlace. The first, reverseArray, takes an array as argument and produces a new array that has the same elements in the inverse order. The second, reverseArrayInPlace, does what the reverse method does: it modifies the array given as argument by reversing its elements. Neither may use the standard reverse method.
-
-Thinking back to the notes about side effects and pure functions in the previous chapter, which variant do you expect to be useful in more situations? Which one runs faster?
-
-// Your code here.
+function reverseArrayInPlace(arr){
+	for(let i = 0; i<=Math.floor(arr.length/2); i++){
+		let tempValue = arr[i];
+		arr[i]=arr[arr.length-1-i]
+		arr[arr.length-1-i]=tempValue
+	}
+	return arr
+}
 
 console.log(reverseArray(["A", "B", "C"]));
 // → ["C", "B", "A"];
@@ -64,59 +63,22 @@ let arrayValue = [1, 2, 3, 4, 5];
 reverseArrayInPlace(arrayValue);
 console.log(arrayValue);
 // → [5, 4, 3, 2, 1]
-*/
-function reverseArray(arr){
-	let result = []
-	for (let i = arr.length-1; i > -1; i--){
-		result.push(arr[i])
-	}
-	return result
-
-}
-
-function reverseArrayInPlace(arr){
-	for(let i = 0; i<Math.floor(arr.length/2); i++){
-		let temp = arr[i]
-		arr[i] = arr[arr.length-1-i]
-		arr[arr.length-1-i]=temp
-	}
-	return
-}
-// console.log(reverseArray(["A", "B", "C"]));
-// → ["C", "B", "A"];
-// let arrayValue = [1, 2, 3, 4, 5];
-// reverseArrayInPlace(arrayValue);
-// console.log(arrayValue);
-// → [5, 4, 3, 2, 1]
-
-//I knew how to do the reverseArray 2 ways, but I didn't know nor figure out a way for reverseArrayInPlace; the above code is teh result of looking at the hints, I'll add that function to an Anki card for later recall
 
 
 
-//A List
 /*
+A list
 Objects, as generic blobs of values, can be used to build all sorts of data structures. A common data structure is the list (not to be confused with array). A list is a nested set of objects, with the first object holding a reference to the second, the second to the third, and so on.
 
-list
-1
 let list = {
-2
   value: 1,
-3
   rest: {
-4
     value: 2,
-5
     rest: {
-6
       value: 3,
-7
       rest: null
-8
     }
-9
   }
-10
 };
 The resulting objects form a chain, like this:
 
@@ -126,76 +88,26 @@ A nice thing about lists is that they can share parts of their structure. For ex
 Write a function arrayToList that builds up a list structure like the one shown when given [1, 2, 3] as argument. Also write a listToArray function that produces an array from a list. Then add a helper function prepend, which takes an element and a list and creates a new list that adds the element to the front of the input list, and nth, which takes a list and a number and returns the element at the given position in the list (with zero referring to the first element) or undefined when there is no such element.
 
 If you haven’t already, also write a recursive version of nth.
-
-// Your code here.
-
-console.log(arrayToList([10, 20]));
-// → {value: 10, rest: {value: 20, rest: null}}
-console.log(listToArray(arrayToList([10, 20, 30])));
-// → [10, 20, 30]
-console.log(prepend(10, prepend(20, null)));
-// → {value: 10, rest: {value: 20, rest: null}}
-console.log(nth(arrayToList([10, 20, 30]), 1));
-// → 20
 */
 
 function arrayToList(arr){
-	let list = null
-	for(let i = arr.length-1; i> -1; i--){
-		list = {value: arr[i], rest: list}
+	for(let i = arr.length-1; i >= 0; i--){
+		{value: i, rest:}
 	}
-	return list
-}
-//I had no idea what I was doing and after I read the hint I still didn't know but got it right after 2 attempts, so I lucked out
-
-// function listToArray(list){
-
-// 	return
-// }
-
-
-
-// console.log(arrayToList([10, 20]));
-// → {value: 10, rest: {value: 20, rest: null}}
-// console.log(listToArray(arrayToList([10, 20, 30])));
-// // → [10, 20, 30]
-// console.log(prepend(10, prepend(20, null)));
-// // → {value: 10, rest: {value: 20, rest: null}}
-// console.log(nth(arrayToList([10, 20, 30]), 1));
-
-
-//deep comparison
-/*
-The == operator compares objects by identity. But sometimes you’d prefer to compare the values of their actual properties.
-
-Write a function deepEqual that takes two values and returns true only if they are the same value or are objects with the same properties, where the values of the properties are equal when compared with a recursive call to deepEqual.
-
-To find out whether values should be compared directly (use the === operator for that) or have their properties compared, you can use the typeof operator. If it produces "object" for both values, you should do a deep comparison. But you have to take one silly exception into account: because of a historical accident, typeof null also produces "object".
-
-The Object.keys function will be useful when you need to go over the properties of objects to compare them.
-
-// Your code here.
-
-let obj = {here: {is: "an"}, object: 2};
-console.log(deepEqual(obj, obj));
-// → true
-console.log(deepEqual(obj, {here: 1, object: 2}));
-// → false
-console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
-// → true
-*/
-
-function deepEqual(a,b){
-	if((a === b)||(a.keys()===b.keys())){
-		return true
-	}
+	return resultList
+	//I had to read the hints
 }
 
-let obj = {here: {is: "an"}, object: 2};
-console.log(deepEqual(obj, obj));
-// → true
-console.log(deepEqual(obj, {here: 1, object: 2}));
-// → false
-console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
-// → true
-//my mind is blown today, I'll have to come back to this next week or tonight.
+function listToArray(){
+	//creates an array from the "value" key/property's values
+}
+function prepend(element, list){
+	//creates a new list that adds the element argument to the front of the argument list
+}
+function nth(list, number){
+	//returns the element at the given position in the list, 0 referring to the first element, or undefined when there is no such element
+}
+//^write a recursive version of the nth function
+
+
+//sadly I've given up on this file for now 
